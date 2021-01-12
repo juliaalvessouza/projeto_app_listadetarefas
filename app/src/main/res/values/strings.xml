@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ListWork</string>
+    <string name="FloatingActionButton">Button Add</string>
+    <string name="TextInputHint">Digite uma Tarefa</string>
+    <string name="TextView">TextView</string>
+    <string name="MenuSalvar">Salvar</string>
+    <string name="MenuConfiguracoes">Configurações</string>
+    <string name="MenuEditar">Editar</string>
 </resources>
