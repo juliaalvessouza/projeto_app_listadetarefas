@@ -1,6 +1,5 @@
 package com.example.listwork.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,9 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -20,6 +16,7 @@ import com.example.listwork.R;
 import com.example.listwork.necessary.RecyclerItemClickListener;
 import com.example.listwork.adapter.Adapter;
 import com.example.listwork.model.Tarefa;
+import com.example.listwork.necessary.TarefaDAO;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -47,14 +44,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void carregarListaTarefas (){
-//lista de tarefas de modo estático, sem banco de dados.
-        Tarefa tarefa1 = new Tarefa();
-        tarefa1.setNomeTarefa("Ir ao mercado");
-        listaTarefa.add(tarefa1);
+//lista de tarefas relacionado ao banco de dados
+        TarefaDAO tarefaDAO = new TarefaDAO(getApplicationContext());
+        listaTarefa = tarefaDAO.listar();
 
-        Tarefa tarefa2 = new Tarefa();
-        tarefa2.setNomeTarefa("Estudar Android");
-        listaTarefa.add(tarefa2);
+//lista de tarefas de modo estático, sem banco de dados.
+//        Tarefa tarefa1 = new Tarefa();
+//        tarefa1.setNomeTarefa("Ir ao mercado");
+//        listaTarefa.add(tarefa1);
+//
+//        Tarefa tarefa2 = new Tarefa();
+//        tarefa2.setNomeTarefa("Estudar Android");
+//        listaTarefa.add(tarefa2);
 
 
 //configuração do Adapter
@@ -73,12 +74,16 @@ public class MainActivity extends AppCompatActivity {
                 new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        Log.i("clique", "onItemClick");
+                        Tarefa tarefaselecionada = listaTarefa.get(position);
+                        Intent intent = new Intent(MainActivity.this, AddTarefasActivity.class);
+                        intent.putExtra("tarefaselecionada", tarefaselecionada);
+                        startActivity(intent);
+
                     }
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        Log.i("clique", "onLongItemClick");
+
                     }
 
                     @Override
@@ -87,13 +92,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
         );
+//        DBHelper db = new DBHelper(getApplicationContext());
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put("nome", "teste");
+//        db.getWritableDatabase().insert("tarefas", null, contentValues);
     }
 
     @Override
     protected void onStart() {
-        carregarListaTarefas();
         super.onStart();
+        carregarListaTarefas();
     }
-
 
 }

@@ -1,6 +1,7 @@
 package com.example.listwork.necessary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -62,4 +63,5 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         });
 
     }
+
 }
