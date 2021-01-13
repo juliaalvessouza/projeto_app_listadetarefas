@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class AddTarefasActivity extends AppCompatActivity {
     private TextInputEditText editTarefa;
+    private Tarefa tarefaAtual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,12 @@ public class AddTarefasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_tarefas);
 
         editTarefa = findViewById(R.id.textTarefa);
+
+        tarefaAtual = (Tarefa) getIntent().getSerializableExtra("tarefaselecionada");
+        if (tarefaAtual != null) {
+            editTarefa.setText(tarefaAtual.getNomeTarefa());
+        }
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
