@@ -1,10 +1,12 @@
 package com.example.listwork.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Adapter adapter;
     private List<Tarefa> listaTarefa = new ArrayList<>();
+    private Tarefa tarefaselecionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +51,6 @@ public class MainActivity extends AppCompatActivity {
         TarefaDAO tarefaDAO = new TarefaDAO(getApplicationContext());
         listaTarefa = tarefaDAO.listar();
 
-//lista de tarefas de modo estático, sem banco de dados.
-//        Tarefa tarefa1 = new Tarefa();
-//        tarefa1.setNomeTarefa("Ir ao mercado");
-//        listaTarefa.add(tarefa1);
-//
-//        Tarefa tarefa2 = new Tarefa();
-//        tarefa2.setNomeTarefa("Estudar Android");
-//        listaTarefa.add(tarefa2);
-
 
 //configuração do Adapter
         adapter = new Adapter(listaTarefa);
@@ -74,10 +68,12 @@ public class MainActivity extends AppCompatActivity {
                 new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        TarefaDAO tarefaDAO = new TarefaDAO(getApplicationContext());
                         Tarefa tarefaselecionada = listaTarefa.get(position);
-                        Intent intent = new Intent(MainActivity.this, AddTarefasActivity.class);
-                        intent.putExtra("tarefaselecionada", tarefaselecionada);
-                        startActivity(intent);
+                        tarefaDAO.deletar(tarefaselecionada);
+                        carregarListaTarefas();
+                        Toast.makeText(getApplicationContext(), "Tarefa Excluída", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -92,10 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
         );
-//        DBHelper db = new DBHelper(getApplicationContext());
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put("nome", "teste");
-//        db.getWritableDatabase().insert("tarefas", null, contentValues);
+
     }
 
     @Override

@@ -31,18 +31,28 @@ public class TarefaDAO implements ITarefaDAO{
             Log.i("INFO","Tarefa salva com sucesso");
         }catch (Exception e){
             Log.i("INFO", "Erro ao salvar a tarefa" + e.getMessage());
+            return false;
         }
         return true;
     }
 
     @Override
     public boolean atualizar(Tarefa tarefa) {
+//        não foi implementado o método atualizar...
         return false;
     }
 
     @Override
     public boolean deletar(Tarefa tarefa) {
-        return false;
+        try {
+            String[] args ={tarefa.getId().toString()};
+            write.delete(DBHelper.NOME_TABELA_TAREFA, "id=?", args );
+            Log.i("INFO","Tarefa deletada com sucesso");
+        }catch (Exception e){
+            Log.i("INFO", "Erro ao deletar a tarefa" + e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     @Override
